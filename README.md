@@ -2,6 +2,10 @@
 --
     import "github.com/fiskaly/golog"
 
+Package golog implements structured logging for Google Cloud Platform as
+described in https://cloud.google.com/logging/docs/structured-logging. It allows
+attaching a logger to a context to print context-specific information to the log
+output.
 
 ## Usage
 
