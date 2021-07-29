@@ -37,7 +37,7 @@ func (e entry) MarshalJSON() ([]byte, error) {
 	e.fields["message"] = e.message
 	e.fields["logging.googleapis.com/sourceLocation"] = e.location
 	if e.httpRequest != nil {
-		e.fields["HTTPRequest"] = e.httpRequest
+		e.fields["httpRequest"] = e.httpRequest
 	}
 
 	return json.Marshal(e.fields)
