@@ -1,0 +1,14 @@
+version: "3"
+silent: true
+vars:
+  MODULE_NAME:
+    sh: go list -m
+tasks:
+  lint:
+    desc: Check the code for possible problems.
+    cmds:
+      - golint -set_exit_status -min_confidence .3
+  doc:
+    desc: Generate a README file from godoc.
+    cmds:
+      - godocdown -o README.md {{.MODULE_NAME}}
