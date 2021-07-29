@@ -2,12 +2,22 @@ package golog
 
 import (
 	"encoding/json"
+	"io"
 )
 
 // A Logger produces structured log output in the format defined by Google for GCP logs.
 type Logger struct {
 	enc    *json.Encoder
 	fields Fields
+}
+
+// NewLogger creates a new logger which outputs to the given `io.Writer`.
+// It allows setting fields which are included in every output log entry.
+func NewLogger(w io.Writer, fields Fields) *Logger {
+	return &Logger{
+		enc:    json.NewEncoder(w),
+		fields: fields,
+	}
 }
 
 // output creates a new log entry and prints it to the logger's output.

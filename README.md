@@ -125,6 +125,14 @@ func GetLogger(ctx context.Context) *Logger
 GetLogger extracts the logger from a context. It returns a new empty logger if
 ctx doesn't contain a logger.
 
+#### func  NewLogger
+
+```go
+func NewLogger(w io.Writer, fields Fields) *Logger
+```
+NewLogger creates a new logger which outputs to the given `io.Writer`. It allows
+setting fields which are included in every output log entry.
+
 #### func (*Logger) Alert
 
 ```go
