@@ -2,6 +2,7 @@ package golog
 
 import (
 	"encoding/json"
+	"path/filepath"
 	"runtime"
 )
 
@@ -15,6 +16,8 @@ type entry struct {
 
 func newEntry(severity level, message string, req *HTTPRequest, fields Fields) entry {
 	_, file, line, _ := runtime.Caller(3)
+
+	file = filepath.Base(file)
 
 	return entry{
 		fields:   fields,
