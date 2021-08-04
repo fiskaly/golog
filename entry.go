@@ -58,28 +58,28 @@ type LogLevel string
 
 const (
 	// Debug or trace information.
-	LevelDebug = "DEBUG"
+	levelDebug = "DEBUG"
 
 	// Routine information, such as ongoing status or performance.
-	LevelInfo = "INFO"
+	levelInfo = "INFO"
 
 	// Normal but significant events, such as start up, shut down, or a configuration change.
-	LevelNotice = "NOTICE"
+	levelNotice = "NOTICE"
 
 	// Warning events might cause problems.
-	LevelWarning = "WARNING"
+	levelWarning = "WARNING"
 
 	// Error events are likely to cause problems.
-	LevelError = "ERROR"
+	levelError = "ERROR"
 
 	// Critical events cause more severe problems or outages.
-	LevelCritical = "CRITICAL"
+	levelCritical = "CRITICAL"
 
 	// A person must take an action immediately.
-	LevelAlert = "ALERT"
+	levelAlert = "ALERT"
 
 	// One or more systems are unusable.
-	LevelEmergency = "EMERGENCY"
+	levelEmergency = "EMERGENCY"
 )
 
 type location struct {
