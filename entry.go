@@ -37,10 +37,6 @@ func newEntry(severity level, message string, req *HTTPRequest, fields Fields) e
 }
 
 func (e entry) MarshalJSON() ([]byte, error) {
-	if e.fields == nil {
-		e.fields = make(Fields)
-	}
-
 	e.fields["severity"] = e.severity
 	e.fields["message"] = e.message
 	e.fields["logging.googleapis.com/sourceLocation"] = e.location
