@@ -21,7 +21,7 @@ func NewLogger(w io.Writer, fields Fields) *Logger {
 }
 
 // output creates a new log entry and prints it to the logger's output.
-func (l *Logger) output(severity logLevel, msg string, req *HTTPRequest, fields Fields) {
+func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fields) {
 	entry := newEntry(severity, msg, req, fields)
 
 	for k, v := range l.fields {

@@ -9,13 +9,13 @@ import (
 
 type entry struct {
 	fields      Fields
-	severity    logLevel
+	severity    level
 	message     string
 	httpRequest *HTTPRequest
 	location    location
 }
 
-func newEntry(severity logLevel, message string, req *HTTPRequest, fields Fields) entry {
+func newEntry(severity level, message string, req *HTTPRequest, fields Fields) entry {
 	if fields == nil {
 		fields = Fields{}
 	}
@@ -51,8 +51,8 @@ func (e entry) MarshalJSON() ([]byte, error) {
 	return json.Marshal(e.fields)
 }
 
-// logLevel describes the severity logLevel of a log entry.
-type logLevel string
+// level describes the severity level of a log entry.
+type level string
 
 const (
 	// Debug or trace information.
