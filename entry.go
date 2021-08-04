@@ -7,8 +7,6 @@ import (
 	"runtime"
 )
 
-// {"httpRequest":{"requestMethod":"GET","requestUrl":"/something","remoteIp":"192.0.2.1:1234"},"logging.googleapis.com/sourceLocation":{"file":"entry_test.go","line":24},"message":"something","severity":"INFO"}
-
 type entry struct {
 	Fields      Fields       `json:"fields"`
 	Severity    logLevel     `json:"severity"`
