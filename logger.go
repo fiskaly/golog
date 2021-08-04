@@ -24,6 +24,10 @@ func NewLogger(w io.Writer, fields Fields) *Logger {
 func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fields) {
 	entry := newEntry(severity, msg, req, fields)
 
+	if entry.fields == nil {
+		entry.fields = make(Fields)
+	}
+
 	for k, v := range l.fields {
 		f, ok := v.(func() string)
 		if ok {
