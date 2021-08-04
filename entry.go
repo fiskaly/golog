@@ -16,10 +16,6 @@ type entry struct {
 }
 
 func newEntry(severity level, message string, req *HTTPRequest, fields Fields) entry {
-	if fields == nil {
-		fields = Fields{}
-	}
-
 	_, file, line, _ := runtime.Caller(3)
 
 	file = filepath.Base(file)
@@ -37,6 +33,10 @@ func newEntry(severity level, message string, req *HTTPRequest, fields Fields) e
 }
 
 func (e entry) MarshalJSON() ([]byte, error) {
+	if e.fields == nil {
+		e.fields = make(Fields)
+	}
+
 	e.fields["severity"] = e.severity
 	e.fields["message"] = e.message
 	e.fields["logging.googleapis.com/sourceLocation"] = e.location
