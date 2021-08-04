@@ -8,11 +8,11 @@ import (
 )
 
 type entry struct {
-	Fields      Fields       `json:"fields"`
-	Severity    logLevel     `json:"severity"`
-	Message     string       `json:"message"`
-	HTTPRequest *HTTPRequest `json:"httpRequest"`
-	Location    location     `json:"logging.googleapis.com/sourceLocation"`
+	fields      Fields
+	severity    logLevel
+	message     string
+	httpRequest *HTTPRequest
+	location    location
 }
 
 func newEntry(severity logLevel, message string, req *HTTPRequest, fields Fields) entry {
@@ -25,30 +25,30 @@ func newEntry(severity logLevel, message string, req *HTTPRequest, fields Fields
 	file = filepath.Base(file)
 
 	return entry{
-		Fields:   fields,
-		Severity: severity,
-		Message:  message,
-		Location: location{
+		fields:   fields,
+		severity: severity,
+		message:  message,
+		location: location{
 			File: file,
 			Line: line,
 		},
-		HTTPRequest: req,
+		httpRequest: req,
 	}
 }
 
 func (e entry) MarshalJSON() ([]byte, error) {
-	if e.Fields == nil {
-		e.Fields = make(Fields)
+	if e.fields == nil {
+		e.fields = make(Fields)
 	}
 
-	e.Fields["severity"] = e.Severity
-	e.Fields["message"] = e.Message
-	e.Fields["logging.googleapis.com/sourceLocation"] = e.Location
-	if e.HTTPRequest != nil {
-		e.Fields["httpRequest"] = e.HTTPRequest
+	e.fields["severity"] = e.severity
+	e.fields["message"] = e.message
+	e.fields["logging.googleapis.com/sourceLocation"] = e.location
+	if e.httpRequest != nil {
+		e.fields["httpRequest"] = e.httpRequest
 	}
 
-	return json.Marshal(e.Fields)
+	return json.Marshal(e.fields)
 }
 
 // logLevel describes the severity logLevel of a log entry.
