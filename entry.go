@@ -2,6 +2,7 @@ package golog
 
 import (
 	"encoding/json"
+	"net/http"
 	"path/filepath"
 	"runtime"
 )
@@ -91,6 +92,17 @@ type HTTPRequest struct {
 	ServerIP  string `json:"serverIp,omitempty"`
 	Referer   string `json:"referer,omitempty"`
 	Latency   string `json:"latency,omitempty"`
+}
+
+// FromStdHTTPRequest extracts all data from http.Request to the custom HTTPRequest type.
+func FromStdHTTPRequest(request *http.Request) *HTTPRequest {
+	return &HTTPRequest{
+		Method:    request.Method,
+		URL:       request.URL.String(),
+		UserAgent: request.UserAgent(),
+		RemoteIP:  request.RemoteAddr,
+		Referer:   request.Referer(),
+	}
 }
 
 // Fields contains additional key:value pairs to add to the log output.
