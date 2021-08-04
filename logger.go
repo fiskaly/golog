@@ -21,7 +21,7 @@ func NewLogger(w io.Writer, fields Fields) *Logger {
 }
 
 // output creates a new log entry and prints it to the logger's output.
-func (l *Logger) output(severity LogLevel, msg string, req *HTTPRequest, fields Fields) {
+func (l *Logger) output(severity logLevel, msg string, req *HTTPRequest, fields Fields) {
 	entry := newEntry(severity, msg, req, fields)
 
 	for k, v := range l.fields {
@@ -38,40 +38,40 @@ func (l *Logger) output(severity LogLevel, msg string, req *HTTPRequest, fields 
 
 // Debug outputs a debug log message.
 func (l *Logger) Debug(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelDebug, msg, req, fields)
+	l.output(levelDebug, msg, req, fields)
 }
 
 // Info outputs an info log message.
 func (l *Logger) Info(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelInfo, msg, req, fields)
+	l.output(levelInfo, msg, req, fields)
 }
 
 // Notice outputs a notice log message.
 func (l *Logger) Notice(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelNotice, msg, req, fields)
+	l.output(levelNotice, msg, req, fields)
 }
 
 // Warning outputs a warning log message.
 func (l *Logger) Warning(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelWarning, msg, req, fields)
+	l.output(levelWarning, msg, req, fields)
 }
 
 // Error outputs an error log message.
 func (l *Logger) Error(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelError, msg, req, fields)
+	l.output(levelError, msg, req, fields)
 }
 
 // Critical outputs a critical log message.
 func (l *Logger) Critical(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelCritical, msg, req, fields)
+	l.output(levelCritical, msg, req, fields)
 }
 
 // Alert outputs an alert log message.
 func (l *Logger) Alert(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelAlert, msg, req, fields)
+	l.output(levelAlert, msg, req, fields)
 }
 
 // Emergency outputs an emergency log message.
 func (l *Logger) Emergency(msg string, req *HTTPRequest, fields Fields) {
-	l.output(LevelEmergency, msg, req, fields)
+	l.output(levelEmergency, msg, req, fields)
 }

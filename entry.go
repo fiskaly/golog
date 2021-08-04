@@ -11,13 +11,13 @@ import (
 
 type entry struct {
 	Fields      Fields       `json:"fields"`
-	Severity    LogLevel     `json:"severity"`
+	Severity    logLevel     `json:"severity"`
 	Message     string       `json:"message"`
 	HTTPRequest *HTTPRequest `json:"httpRequest"`
 	Location    location     `json:"logging.googleapis.com/sourceLocation"`
 }
 
-func newEntry(severity LogLevel, message string, req *HTTPRequest, fields Fields) entry {
+func newEntry(severity logLevel, message string, req *HTTPRequest, fields Fields) entry {
 	if fields == nil {
 		fields = Fields{}
 	}
@@ -53,8 +53,8 @@ func (e entry) MarshalJSON() ([]byte, error) {
 	return json.Marshal(e.Fields)
 }
 
-// LogLevel describes the severity LogLevel of a log entry.
-type LogLevel string
+// logLevel describes the severity logLevel of a log entry.
+type logLevel string
 
 const (
 	// Debug or trace information.
