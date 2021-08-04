@@ -2,19 +2,24 @@ package golog
 
 import (
 	"encoding/json"
+	"net/http"
 	"runtime"
 )
 
 type entry struct {
 	fields      Fields
-	severity    level
+	severity    LogLevel
 	message     string
 	httpRequest *HTTPRequest
 	location    location
 }
 
-func newEntry(severity level, message string, req *HTTPRequest, fields Fields) entry {
+func newEntry(severity LogLevel, message string, req *HTTPRequest, fields Fields) entry {
 	_, file, line, _ := runtime.Caller(3)
+
+	if fields == nil {
+		fields = make(Fields)
+	}
 
 	return entry{
 		fields:   fields,
@@ -43,33 +48,33 @@ func (e entry) MarshalJSON() ([]byte, error) {
 	return json.Marshal(e.fields)
 }
 
-// level describes the severity level of a log entry.
-type level string
+// LogLevel describes the severity LogLevel of a log entry.
+type LogLevel string
 
 const (
 	// Debug or trace information.
-	levelDebug = "DEBUG"
+	LevelDebug = "DEBUG"
 
 	// Routine information, such as ongoing status or performance.
-	levelInfo = "INFO"
+	LevelInfo = "INFO"
 
 	// Normal but significant events, such as start up, shut down, or a configuration change.
-	levelNotice = "NOTICE"
+	LevelNotice = "NOTICE"
 
 	// Warning events might cause problems.
-	levelWarning = "WARNING"
+	LevelWarning = "WARNING"
 
 	// Error events are likely to cause problems.
-	levelError = "ERROR"
+	LevelError = "ERROR"
 
 	// Critical events cause more severe problems or outages.
-	levelCritical = "CRITICAL"
+	LevelCritical = "CRITICAL"
 
 	// A person must take an action immediately.
-	levelAlert = "ALERT"
+	LevelAlert = "ALERT"
 
 	// One or more systems are unusable.
-	levelEmergency = "EMERGENCY"
+	LevelEmergency = "EMERGENCY"
 )
 
 type location struct {
@@ -88,6 +93,17 @@ type HTTPRequest struct {
 	ServerIP  string `json:"serverIp,omitempty"`
 	Referer   string `json:"referer,omitempty"`
 	Latency   string `json:"latency,omitempty"`
+}
+
+// FromStdHTTPRequest extracts all data from http.Request to the custom HTTPRequest type.
+func FromStdHTTPRequest(request *http.Request) *HTTPRequest {
+	return &HTTPRequest{
+		Method:    request.Method,
+		URL:       request.URL.String(),
+		UserAgent: request.UserAgent(),
+		RemoteIP:  request.RemoteAddr,
+		Referer:   request.Referer(),
+	}
 }
 
 // Fields contains additional key:value pairs to add to the log output.

@@ -15,8 +15,8 @@ const loggerKey key = "logger"
 // WithLogger creates a new logger and attaches it to the Context.
 func WithLogger(ctx context.Context, w io.Writer, fields Fields) context.Context {
 	l := &Logger{
-		enc:    json.NewEncoder(w),
-		fields: fields,
+		encoder: json.NewEncoder(w),
+		fields:  fields,
 	}
 
 	return context.WithValue(ctx, loggerKey, l)
@@ -37,54 +37,54 @@ func GetLogger(ctx context.Context) *Logger {
 // If ctx doesn't contain a logger, it uses a new logger.
 func Debug(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelDebug, msg, req, fields)
+	l.output(LevelDebug, msg, req, fields)
 }
 
 // Info outputs an info log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Info(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelInfo, msg, req, fields)
+	l.output(LevelInfo, msg, req, fields)
 }
 
 // Notice outputs a notice log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Notice(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelNotice, msg, req, fields)
+	l.output(LevelNotice, msg, req, fields)
 }
 
 // Warning outputs a warning log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Warning(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelWarning, msg, req, fields)
+	l.output(LevelWarning, msg, req, fields)
 }
 
 // Error outputs an error log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Error(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelError, msg, req, fields)
+	l.output(LevelError, msg, req, fields)
 }
 
 // Critical outputs a critical log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Critical(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelCritical, msg, req, fields)
+	l.output(LevelCritical, msg, req, fields)
 }
 
 // Alert outputs an alert log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Alert(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelAlert, msg, req, fields)
+	l.output(LevelAlert, msg, req, fields)
 }
 
 // Emergency outputs an emergency log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Emergency(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
-	l.output(levelEmergency, msg, req, fields)
+	l.output(LevelEmergency, msg, req, fields)
 }
