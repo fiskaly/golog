@@ -4,8 +4,8 @@ package golog
 
 import (
 	"context"
-	"encoding/json"
 	"io"
+	"os"
 )
 
 type key string
@@ -14,10 +14,7 @@ const loggerKey key = "logger"
 
 // WithLogger creates a new logger and attaches it to the Context.
 func WithLogger(ctx context.Context, w io.Writer, fields Fields) context.Context {
-	l := &Logger{
-		encoder: json.NewEncoder(w),
-		fields:  fields,
-	}
+	l := NewLogger(w, fields)
 
 	return context.WithValue(ctx, loggerKey, l)
 }
@@ -25,12 +22,16 @@ func WithLogger(ctx context.Context, w io.Writer, fields Fields) context.Context
 // GetLogger extracts the logger from a context.
 // It returns a new empty logger if ctx doesn't contain a logger.
 func GetLogger(ctx context.Context) *Logger {
-	l, ok := ctx.Value(loggerKey).(*Logger)
-	if ok {
-		return l
+	if ctx == nil {
+		return NewLogger(os.Stdout, nil)
 	}
 
-	return &Logger{}
+	l, ok := ctx.Value(loggerKey).(*Logger)
+	if !ok {
+		return NewLogger(os.Stdout, nil)
+	}
+
+	return l
 }
 
 // Debug outputs a debug log message using the logger contained in ctx.

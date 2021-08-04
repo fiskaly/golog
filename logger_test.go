@@ -39,10 +39,10 @@ func TestSimple(t *testing.T) {
 func ExampleSimple() {
 	l := NewLogger(os.Stdout, nil)
 
-	l.Warning("hello world", nil, nil)
+	l.Debug("hello world", nil, nil)
 
 	//Output:
-	// {"logging.googleapis.com/sourceLocation":{"file":"/home/christoph/Dev/go/github.com/fiskaly/golog/logger_test.go","line":11},"message":"hello world","severity":"WARNING"}
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":11},"message":"hello world","severity":"DEBUG"}
 }
 
 func ExampleAdvanced() {
@@ -51,17 +51,31 @@ func ExampleAdvanced() {
 		"dynamic":    func() string { return "interesting" },
 	})
 
-	l.Critical("hello world", nil, nil)
+	l.Info("hello world", nil, nil)
 
 	//Output:
-	// {"dynamic":"interesting","logging.googleapis.com/sourceLocation":{"file":"/home/christoph/Dev/go/github.com/fiskaly/golog/logger_test.go","line":23},"message":"hello world","request_id":"12345","severity":"CRITICAL"}
+	// {"dynamic":"interesting","logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":23},"message":"hello world","request_id":"12345","severity":"INFO"}
 }
 
 func ExampleContext() {
-	ctx := WithLogger(context.Background(), os.Stdout, nil)
+	ctx := WithLogger(context.Background(), os.Stdout, Fields{
+		"test": 12345,
+	})
 
-	Debug(ctx, "hello world", nil, nil)
+	Notice(ctx, "hello world", nil, nil)
 
 	//Output:
-	// {"logging.googleapis.com/sourceLocation":{"file":"/home/christoph/Dev/go/github.com/fiskaly/golog/logger_test.go","line":32},"message":"hello world","severity":"DEBUG"}
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":34},"message":"hello world","severity":"NOTICE","test":12345}
+}
+
+func ExampleDefault() {
+	// empty context
+	Warning(context.Background(), "empty context", nil, nil)
+
+	// it works even with a nil context
+	Error(nil, "nil context", nil, nil)
+
+	//Output:
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":42},"message":"empty context","severity":"WARNING"}
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":45},"message":"nil context","severity":"ERROR"}
 }
