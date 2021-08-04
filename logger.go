@@ -30,7 +30,7 @@ func (l *Logger) output(severity LogLevel, msg string, req *HTTPRequest, fields 
 			v = f()
 		}
 
-		entry.fields[k] = v
+		entry.Fields[k] = v
 	}
 
 	l.encoder.Encode(entry)

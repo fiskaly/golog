@@ -12,19 +12,25 @@ import (
 )
 
 func TestFromStdHTTPRequest(t *testing.T) {
-	buffer := bytes.NewBuffer([]byte{})
+	var buf bytes.Buffer
+
+	fields := Fields{
+		"test": "test",
+	}
 
 	request := httptest.NewRequest(http.MethodGet, "/something", nil)
-	logger := NewLogger(buffer, Fields{})
+	logger := NewLogger(&buf, Fields{})
 
-	logger.Info("something", FromStdHTTPRequest(request), nil)
+	logger.Info("something", FromStdHTTPRequest(request), fields)
 
-	contents, err := io.ReadAll(buffer)
+	content, err := io.ReadAll(&buf)
 	require.NoError(t, err)
 
 	var logMessage entry
-	err = json.Unmarshal(contents, &logMessage)
+	err = json.Unmarshal(content, &logMessage)
 	require.NoError(t, err)
 
-	require.Equal(t, http.MethodGet, logMessage.httpRequest.Method)
+	require.NotNil(t, logMessage.HTTPRequest)
+	require.Equal(t, http.MethodGet, logMessage.HTTPRequest.Method)
+	require.Equal(t, request.UserAgent(), logMessage.HTTPRequest.UserAgent)
 }
