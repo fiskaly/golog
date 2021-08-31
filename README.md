@@ -107,6 +107,14 @@ type HTTPRequest struct {
 
 An HTTPRequest contains information about an HTTP request and the response.
 
+#### func  FromStdHTTPRequest
+
+```go
+func FromStdHTTPRequest(request *http.Request) *HTTPRequest
+```
+FromStdHTTPRequest extracts all data from http.Request to the custom HTTPRequest
+type.
+
 #### type Logger
 
 ```go

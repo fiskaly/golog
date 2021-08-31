@@ -17,13 +17,14 @@ func ExampleSimple() {
 func ExampleAdvanced() {
 	l := NewLogger(os.Stdout, Fields{
 		"request_id": "12345",
-		"dynamic":    func() string { return "interesting" },
+		"dynamic":    func() interface{} { return "interesting" },
+		"number":     func() interface{} { return 1234 },
 	})
 
 	l.Info("hello world", nil, nil)
 
 	//Output:
-	// {"dynamic":"interesting","logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":23},"message":"hello world","request_id":"12345","severity":"INFO"}
+	// {"dynamic":"interesting","logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":24},"message":"hello world","number":1234,"request_id":"12345","severity":"INFO"}
 }
 
 func ExampleContext() {
@@ -34,7 +35,7 @@ func ExampleContext() {
 	Notice(ctx, "hello world", nil, nil)
 
 	//Output:
-	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":34},"message":"hello world","severity":"NOTICE","test":12345}
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":35},"message":"hello world","severity":"NOTICE","test":12345}
 }
 
 func ExampleDefault() {
@@ -45,6 +46,6 @@ func ExampleDefault() {
 	Error(nil, "nil context", nil, nil)
 
 	//Output:
-	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":42},"message":"empty context","severity":"WARNING"}
-	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":45},"message":"nil context","severity":"ERROR"}
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":43},"message":"empty context","severity":"WARNING"}
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":46},"message":"nil context","severity":"ERROR"}
 }

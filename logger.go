@@ -29,7 +29,7 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 	}
 
 	for k, v := range l.fields {
-		f, ok := v.(func() string)
+		f, ok := v.(func() interface{})
 		if ok {
 			v = f()
 		}
