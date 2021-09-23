@@ -9,6 +9,14 @@ output.
 
 ## Usage
 
+#### func  AddFields
+
+```go
+func AddFields(ctx context.Context, newFields Fields)
+```
+AddFields adds new fields to the logger contained in ctx. Existing fields might
+be overwritten.
+
 #### func  Alert
 
 ```go
@@ -140,6 +148,13 @@ func NewLogger(w io.Writer, fields Fields) *Logger
 ```
 NewLogger creates a new logger which outputs to the given `io.Writer`. It allows
 setting fields which are included in every output log entry.
+
+#### func (*Logger) AddFields
+
+```go
+func (l *Logger) AddFields(newFields Fields)
+```
+AddFields adds new fields to the logger. Existing fields might be overwritten.
 
 #### func (*Logger) Alert
 

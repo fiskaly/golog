@@ -49,3 +49,19 @@ func ExampleDefault() {
 	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":43},"message":"empty context","severity":"WARNING"}
 	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":46},"message":"nil context","severity":"ERROR"}
 }
+
+func ExampleAddFields() {
+	ctx := WithLogger(context.Background(), os.Stdout, nil)
+
+	Critical(ctx, "hello world", nil, nil)
+
+	AddFields(ctx, Fields{
+		"test": 12345,
+	})
+
+	Alert(ctx, "hello world", nil, nil)
+
+	//Output:
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":56},"message":"hello world","severity":"CRITICAL"}
+	// {"logging.googleapis.com/sourceLocation":{"file":"logger_test.go","line":62},"message":"hello world","severity":"ALERT","test":12345}
+}

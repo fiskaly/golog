@@ -40,6 +40,18 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 	l.encoder.Encode(entry)
 }
 
+// AddFields adds new fields to the logger.
+// Existing fields might be overwritten.
+func (l *Logger) AddFields(newFields Fields) {
+	if l.fields == nil {
+		l.fields = make(Fields)
+	}
+
+	for k, v := range newFields {
+		l.fields[k] = v
+	}
+}
+
 // Debug outputs a debug log message.
 func (l *Logger) Debug(msg string, req *HTTPRequest, fields Fields) {
 	l.output(levelDebug, msg, req, fields)

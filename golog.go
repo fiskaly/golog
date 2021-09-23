@@ -34,6 +34,13 @@ func GetLogger(ctx context.Context) *Logger {
 	return l
 }
 
+// AddFields adds new fields to the logger contained in ctx.
+// Existing fields might be overwritten.
+func AddFields(ctx context.Context, newFields Fields) {
+	l := GetLogger(ctx)
+	l.AddFields(newFields)
+}
+
 // Debug outputs a debug log message using the logger contained in ctx.
 // If ctx doesn't contain a logger, it uses a new logger.
 func Debug(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
