@@ -3,6 +3,7 @@ package golog
 import (
 	"encoding/json"
 	"io"
+	"log"
 )
 
 // A Logger produces structured log output in the format defined by Google for GCP logs.
@@ -37,7 +38,10 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 		entry.fields[k] = v
 	}
 
-	l.enc.Encode(entry)
+	err := l.enc.Encode(entry)
+	if err != nil {
+		log.Println("LOGGING FAILED:", err)
+	}
 }
 
 // Debug outputs a debug log message.
