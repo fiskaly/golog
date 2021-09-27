@@ -2,7 +2,9 @@ package golog
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
+	"log"
 )
 
 // A Logger produces structured log output in the format defined by Google for GCP logs.
@@ -37,7 +39,11 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 		entry.fields[k] = v
 	}
 
-	l.encoder.Encode(entry)
+	err := l.encoder.Encode(entry)
+	if err != nil {
+		log.Println(err)
+		fmt.Println(err)
+	}
 }
 
 // AddFields adds new fields to the logger.
