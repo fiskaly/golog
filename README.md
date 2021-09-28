@@ -73,6 +73,14 @@ func Notice(ctx context.Context, msg string, req *HTTPRequest, fields Fields)
 Notice outputs a notice log message using the logger contained in ctx. If ctx
 doesn't contain a logger, it uses a new logger.
 
+#### func  Stats
+
+```go
+func Stats() (second, minute float64)
+```
+Stats returns the number of written log lines for the last second and an average
+over the last minute.
+
 #### func  Warning
 
 ```go

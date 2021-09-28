@@ -24,6 +24,8 @@ func NewLogger(w io.Writer, fields Fields) *Logger {
 
 // output creates a new log entry and prints it to the logger's output.
 func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fields) {
+	countLog()
+
 	entry := newEntry(severity, msg, req, fields)
 
 	if entry.fields == nil {
