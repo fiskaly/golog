@@ -9,16 +9,15 @@ import (
 
 // A Logger produces structured log output in the format defined by Google for GCP logs.
 type Logger struct {
-	encoder *json.Encoder
-	fields  Fields
+	logger *log.Logger
+	fields Fields
 }
 
 // NewLogger creates a new logger which outputs to the given `io.Writer`.
 // It allows setting fields which are included in every output log entry.
 func NewLogger(w io.Writer, fields Fields) *Logger {
 	return &Logger{
-		encoder: json.NewEncoder(w),
-		fields:  fields,
+		fields: fields,
 	}
 }
 
@@ -41,11 +40,13 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 		entry.fields[k] = v
 	}
 
-	err := l.encoder.Encode(entry)
+	encoded, err := json.Marshal(entry)
 	if err != nil {
 		log.Println(err)
 		fmt.Println(err)
 	}
+
+	l.logger.Println(encoded)
 }
 
 // AddFields adds new fields to the logger.
