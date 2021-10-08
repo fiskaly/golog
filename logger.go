@@ -18,6 +18,7 @@ type Logger struct {
 func NewLogger(w io.Writer, fields Fields) *Logger {
 	return &Logger{
 		fields: fields,
+		logger: log.New(w, "", 0),
 	}
 }
 
@@ -46,7 +47,7 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 		fmt.Println(err)
 	}
 
-	l.logger.Println(encoded)
+	l.logger.Println(string(encoded))
 }
 
 // AddFields adds new fields to the logger.
