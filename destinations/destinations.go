@@ -10,7 +10,7 @@ var (
 	connection io.WriteCloser
 )
 
-func NewRemote() (io.Writer, error) {
+func NewRemote() (io.WriteCloser, error) {
 	// read remote logging destintion from environment
 	destination := os.Getenv("FISKALY_REMOTE_LOGGING_DESTINATION")
 	if destination == "" {
