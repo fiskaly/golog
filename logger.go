@@ -15,7 +15,7 @@ type Logger struct {
 
 // NewLogger creates a new logger which outputs to the given `io.WriteCloser`.
 // It allows setting fields which are included in every output log entry.
-func NewLogger(w io.WriteCloser, fields Fields) *Logger {
+func NewLogger(w io.Writer, fields Fields) *Logger {
 	return &Logger{
 		fields: fields,
 		logger: log.New(w, "", 0),

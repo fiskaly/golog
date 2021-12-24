@@ -13,7 +13,7 @@ type key string
 const loggerKey key = "logger"
 
 // WithLogger creates a new logger and attaches it to the Context.
-func WithLogger(ctx context.Context, w io.WriteCloser, fields Fields) context.Context {
+func WithLogger(ctx context.Context, w io.Writer, fields Fields) context.Context {
 	l := NewLogger(w, fields)
 
 	return context.WithValue(ctx, loggerKey, l)
