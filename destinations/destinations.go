@@ -11,7 +11,7 @@ var (
 )
 
 func NewRemote() (io.WriteCloser, error) {
-	// read remote logging destintion from environment
+	// read remote logging destination from environment
 	destination := os.Getenv("FISKALY_REMOTE_LOGGING_DESTINATION")
 	if destination == "" {
 		panic("env var FISKALY_REMOTE_LOGGING_DESTINATION not defined.")
