@@ -13,7 +13,7 @@ var (
 func NewRemote() (io.WriteCloser, error) {
 	destination := readLoggingDestination()
 
-	return getConnection(destination)
+	return establishConnection(destination)
 }
 
 func readLoggingDestination() string {
@@ -24,7 +24,7 @@ func readLoggingDestination() string {
 	return destination
 }
 
-func getConnection(destination string) (io.WriteCloser, error) {
+func establishConnection(destination string) (io.WriteCloser, error) {
 	if connection == nil {
 		resolved, err := net.ResolveUDPAddr("udp", destination)
 		if err != nil {
