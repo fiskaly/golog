@@ -7,10 +7,10 @@ import (
 )
 
 var (
-	connection io.WriteCloser
+	connection io.Writer
 )
 
-func NewRemote() (io.WriteCloser, error) {
+func NewRemote() (io.Writer, error) {
 	destination := readLoggingDestination()
 
 	return getConnection(destination)
@@ -24,7 +24,7 @@ func readLoggingDestination() string {
 	return destination
 }
 
-func getConnection(destination string) (io.WriteCloser, error) {
+func getConnection(destination string) (io.Writer, error) {
 	if connection == nil {
 		resolved, err := net.ResolveUDPAddr("udp", destination)
 		if err != nil {
