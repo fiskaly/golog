@@ -2,7 +2,6 @@ package destinations
 
 import (
 	"io"
-	"log"
 	"net"
 	"os"
 )
@@ -20,8 +19,7 @@ func NewRemote() (io.WriteCloser, error) {
 func readLoggingDestination() string {
 	destination := os.Getenv("FISKALY_REMOTE_LOGGING_DESTINATION")
 	if destination == "" {
-		//panic("env var FISKALY_REMOTE_LOGGING_DESTINATION not defined.")
-		log.Fatal("env var FISKALY_REMOTE_LOGGING_DESTINATION not defined.")
+		panic("env var FISKALY_REMOTE_LOGGING_DESTINATION not defined.")
 	}
 	return destination
 }
