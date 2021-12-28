@@ -11,13 +11,20 @@ var (
 )
 
 func NewRemote() (io.WriteCloser, error) {
-	// read remote logging destination from environment
+	destination := readLoggingDestination()
+
+	return getConnection(destination)
+}
+
+func readLoggingDestination() string {
 	destination := os.Getenv("FISKALY_REMOTE_LOGGING_DESTINATION")
 	if destination == "" {
 		panic("env var FISKALY_REMOTE_LOGGING_DESTINATION not defined.")
 	}
+	return destination
+}
 
-	// open UDP socket
+func getConnection(destination string) (io.WriteCloser, error) {
 	if connection == nil {
 		resolved, err := net.ResolveUDPAddr("udp", destination)
 		if err != nil {
@@ -29,6 +36,5 @@ func NewRemote() (io.WriteCloser, error) {
 			return nil, err
 		}
 	}
-
 	return connection, nil
 }
