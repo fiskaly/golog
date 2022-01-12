@@ -4,6 +4,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"strings"
 )
 
 var (
@@ -11,29 +12,52 @@ var (
 )
 
 func NewRemote() (io.WriteCloser, error) {
-	destination := readLoggingDestination()
+	protocol, destination := readLoggingDestination()
 
-	return establishConnection(destination)
+	return establishConnection(protocol, destination)
 }
 
-func readLoggingDestination() string {
-	destination := os.Getenv("FISKALY_REMOTE_LOGGING_DESTINATION")
-	if destination == "" {
+func readLoggingDestination() (string, string) {
+	fullDestination := os.Getenv("FISKALY_REMOTE_LOGGING_DESTINATION")
+	if fullDestination == "" {
 		panic("env var FISKALY_REMOTE_LOGGING_DESTINATION not defined.")
 	}
-	return destination
+	if strings.Count(fullDestination, ":") != 2 {
+		panic("env var FISKALY_REMOTE_LOGGING_DESTINATION has an invalid format. Valid format: 'protocol:host:port'.")
+	}
+
+	splitDestination := strings.SplitN(fullDestination, ":", 2)
+	protocol := splitDestination[0]
+	if protocol != "tcp" && protocol != "udp" {
+		panic("protocol must be either tcp or udp.")
+	}
+	destination := splitDestination[1]
+
+	return protocol, destination
 }
 
-func establishConnection(destination string) (io.WriteCloser, error) {
+func establishConnection(protocol, destination string) (io.WriteCloser, error) {
 	if connection == nil {
-		resolved, err := net.ResolveUDPAddr("udp", destination)
-		if err != nil {
-			return nil, err
-		}
+		if protocol == "tcp" {
+			resolved, err := net.ResolveTCPAddr(protocol, destination)
+			if err != nil {
+				return nil, err
+			}
 
-		connection, err = net.DialUDP("udp", nil, resolved)
-		if err != nil {
-			return nil, err
+			connection, err = net.DialTCP(protocol, nil, resolved)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			resolved, err := net.ResolveUDPAddr(protocol, destination)
+			if err != nil {
+				return nil, err
+			}
+
+			connection, err = net.DialUDP(protocol, nil, resolved)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 	return connection, nil
