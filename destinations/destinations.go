@@ -20,7 +20,7 @@ func NewRemote() (io.WriteCloser, error) {
 func readLoggingDestination() (string, string) {
 	fullDestination := os.Getenv("FISKALY_REMOTE_LOGGING_DESTINATION")
 	if fullDestination == "" {
-		panic("env var FISKALY_REMOTE_LOGGING_DESTINATION not defined.")
+		fullDestination = "tcp:vector:2002"
 	}
 	if strings.Count(fullDestination, ":") != 2 {
 		panic("env var FISKALY_REMOTE_LOGGING_DESTINATION has an invalid format. Valid format: 'protocol:host:port'.")
