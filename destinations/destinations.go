@@ -48,7 +48,9 @@ func establishConnection(protocol, destination string) (io.WriteCloser, error) {
 			if err != nil {
 				return nil, err
 			}
-		} else {
+		}
+
+		if protocol == "udp" {
 			resolved, err := net.ResolveUDPAddr(protocol, destination)
 			if err != nil {
 				return nil, err
