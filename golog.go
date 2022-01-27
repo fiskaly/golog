@@ -4,6 +4,7 @@ package golog
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"os"
 )
@@ -23,11 +24,13 @@ func WithLogger(ctx context.Context, w io.Writer, fields Fields) context.Context
 // It returns a new empty logger if ctx doesn't contain a logger.
 func GetLogger(ctx context.Context) *Logger {
 	if ctx == nil {
+		fmt.Printf("Context of golog is nil")
 		return NewLogger(os.Stdout, nil)
 	}
 
 	l, ok := ctx.Value(loggerKey).(*Logger)
 	if !ok {
+		fmt.Printf("Golog is not OK")
 		return NewLogger(os.Stdout, nil)
 	}
 
@@ -45,6 +48,9 @@ func AddFields(ctx context.Context, newFields Fields) {
 // If ctx doesn't contain a logger, it uses a new logger.
 func Debug(ctx context.Context, msg string, req *HTTPRequest, fields Fields) {
 	l := GetLogger(ctx)
+	if l == nil {
+		fmt.Printf("logger is NIL")
+	}
 	l.output(levelDebug, msg, req, fields)
 }
 

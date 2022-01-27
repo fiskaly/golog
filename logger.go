@@ -47,6 +47,9 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 		fmt.Println(err)
 	}
 
+	fmt.Println("log intance golog", l)
+	fmt.Println("log LOGGER intance golog", l.logger)
+
 	l.logger.Println(string(encoded))
 }
 
