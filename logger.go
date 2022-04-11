@@ -62,6 +62,11 @@ func (l *Logger) AddFields(newFields Fields) {
 	}
 }
 
+// GetFields returns the fields of the logger.
+func (l *Logger) GetFields() Fields {
+	return l.fields
+}
+
 // Debug outputs a debug log message.
 func (l *Logger) Debug(msg string, req *HTTPRequest, fields Fields) {
 	l.output(levelDebug, msg, req, fields)
