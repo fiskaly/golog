@@ -17,6 +17,13 @@ func AddFields(ctx context.Context, newFields Fields)
 AddFields adds new fields to the logger contained in ctx. Existing fields might
 be overwritten.
 
+#### func  GetFields
+
+```go
+func GetFields() Fields
+```
+GetFields returns the fields of the logger contained in ctx.
+
 #### func  Alert
 
 ```go
