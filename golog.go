@@ -41,7 +41,7 @@ func AddFields(ctx context.Context, newFields Fields) {
 	l.AddFields(newFields)
 }
 
-// GetFields retrieves the fields to the logger contained in ctx.
+// GetFields returns the fields of the logger contained in ctx.
 func GetFields(ctx context.Context) Fields {
 	l := GetLogger(ctx)
 	return l.GetFields()
