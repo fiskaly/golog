@@ -2,7 +2,6 @@ package golog
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 )
@@ -44,7 +43,6 @@ func (l *Logger) output(severity level, msg string, req *HTTPRequest, fields Fie
 	encoded, err := json.Marshal(entry)
 	if err != nil {
 		log.Println(err)
-		fmt.Println(err)
 	}
 
 	l.logger.Println(string(encoded))
