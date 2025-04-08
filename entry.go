@@ -84,24 +84,20 @@ type location struct {
 
 // An HTTPRequest contains information about an HTTP request and the response.
 type HTTPRequest struct {
-	Method    string `json:"requestMethod,omitempty"`
-	URL       string `json:"requestUrl,omitempty"`
-	Status    int    `json:"status,omitempty"`
-	UserAgent string `json:"userAgent,omitempty"`
-	RemoteIP  string `json:"remoteIp,omitempty"`
-	ServerIP  string `json:"serverIp,omitempty"`
-	Referer   string `json:"referer,omitempty"`
-	Latency   string `json:"latency,omitempty"`
+	Method   string `json:"requestMethod,omitempty"`
+	URL      string `json:"requestUrl,omitempty"`
+	Status   int    `json:"status,omitempty"`
+	ServerIP string `json:"serverIp,omitempty"`
+	Referer  string `json:"referer,omitempty"`
+	Latency  string `json:"latency,omitempty"`
 }
 
 // FromStdHTTPRequest extracts all data from http.Request to the custom HTTPRequest type.
 func FromStdHTTPRequest(request *http.Request) *HTTPRequest {
 	return &HTTPRequest{
-		Method:    request.Method,
-		URL:       request.URL.String(),
-		UserAgent: request.UserAgent(),
-		RemoteIP:  request.RemoteAddr,
-		Referer:   request.Referer(),
+		Method:  request.Method,
+		URL:     request.URL.String(),
+		Referer: request.Referer(),
 	}
 }
 

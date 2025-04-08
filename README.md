@@ -120,8 +120,6 @@ type HTTPRequest struct {
 	Method    string `json:"requestMethod,omitempty"`
 	URL       string `json:"requestUrl,omitempty"`
 	Status    int    `json:"status,omitempty"`
-	UserAgent string `json:"userAgent,omitempty"`
-	RemoteIP  string `json:"remoteIp,omitempty"`
 	ServerIP  string `json:"serverIp,omitempty"`
 	Referer   string `json:"referer,omitempty"`
 	Latency   string `json:"latency,omitempty"`
